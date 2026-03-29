@@ -5,10 +5,10 @@ services:
     restart: on-failure
     environment:
       TZ: America/Sao_Paulo
-      MYSQL_ROOT_PASSWORD: admin123
-      MYSQL_USER: docker
-      MYSQL_PASSWORD: admin123
-      MYSQL_DATABASE: kenjix_security
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE_KENJIX}
     ports:
       - "3306:3306"
     expose:

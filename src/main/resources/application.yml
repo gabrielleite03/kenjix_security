@@ -10,9 +10,9 @@ spring:
     name: kenjix_security
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/kenjix_security?useTimezone=true&serverTimezone=UTC
-    username: root
-    password: admin123
+    url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_DATABASE_KENJIX}?useTimezone=true&serverTimezone=UTC
+    username: ${MYSQL_USER}
+    password: ${MYSQL_ROOT_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: none

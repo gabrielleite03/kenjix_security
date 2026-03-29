@@ -15,10 +15,6 @@ public class Startup {
         logger.info("Initializing");
 		SpringApplication.run(Startup.class, args);
 	}
-
-
-
-
 }
 
 
