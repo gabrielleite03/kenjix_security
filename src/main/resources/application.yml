@@ -1,22 +1,24 @@
 server:
   port: 81
+
 security:
   jwt:
     token:
       secret-key: 53cr37
-      expire-lenght: 3600000
+      expire-length: 3600000
+
 spring:
   application:
     name: kenjix_security
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_DATABASE_KENJIX}?useTimezone=true&serverTimezone=UTC
-    username: ${MYSQL_USER}
-    password: ${MYSQL_ROOT_PASSWORD}
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DATABASE_KENJIX:estoque}?useTimezone=true&serverTimezone=UTC
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASSWORD:kkk}
+
   jpa:
     hibernate:
       ddl-auto: none
-    properties:
-      hibernate:
     show-sql: false
     open-in-view: false
