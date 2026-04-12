@@ -15,7 +15,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DATABASE_KENJIX:estoque}?useTimezone=true&serverTimezone=UTC
     username: ${MYSQL_USER:root}
-    password: ${MYSQL_PASSWORD:kkk}
+    password: ${MYSQL_PASSWORD:root}
 
   jpa:
     hibernate:

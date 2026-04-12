@@ -75,6 +75,10 @@ public class AuthService {
         return ResponseEntity.ok(token);
     }
 
+    public Boolean validateToken(String validateToken) {
+        return tokenProvider.validateToken(validateToken);
+    }
+
     public AccountCredentialsDTO create(AccountCredentialsDTO user) {
 
         if (user == null) throw new RequiredObjectIsNullException();

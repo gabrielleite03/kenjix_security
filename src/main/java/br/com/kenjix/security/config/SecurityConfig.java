@@ -56,10 +56,11 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers("/auth/signin", "/auth/refresh/**", "/auth/createUser", "/swagger-ui/**", "/v3/api-docs/**")
+                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers("/auth/signin", "/auth/refresh/**","/auth/validate", "/auth/createUser", "/swagger-ui/**", "/v3/api-docs/**")
                         .permitAll()
                         .requestMatchers("/api/**").authenticated()
                         .requestMatchers("/users").denyAll())
+                .cors(cors ->{})
                 .build();
     }
 
