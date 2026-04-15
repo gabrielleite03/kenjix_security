@@ -47,10 +47,23 @@ public class AuthController{
         return token;
     }
 
-    @PutMapping("/validate")
-    public ResponseEntity<Boolean> validateToken(
-            @RequestHeader("Authorization") String validateToken) {
-        return new ResponseEntity<>(HttpStatus.OK);
+    @GetMapping("/validate")
+    public ResponseEntity<Void> validateToken(
+            @RequestHeader("Authorization") String authorizationHeader) {
+
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        String token = authorizationHeader.substring(7);
+
+        boolean isValid = service.validateToken(token);
+
+        if (!isValid) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping(value = "/createUser",

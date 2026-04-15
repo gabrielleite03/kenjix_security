@@ -4,12 +4,14 @@ server:
 security:
   jwt:
     token:
-      secret-key: 53cr37
+      secret-key: ${JWT_SECRET}
       expire-length: 3600000
 
 spring:
   application:
     name: kenjix_security
+  flyway:
+    enabled: false
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -22,3 +24,9 @@ spring:
       ddl-auto: none
     show-sql: false
     open-in-view: false
+
+logging:
+  level:
+    com.zaxxer.hikari: DEBUG
+    org.springframework.jdbc: DEBUG
+    org.hibernate.SQL: DEBUG

@@ -2,12 +2,19 @@ package br.com.kenjix.security.service;
 
 import br.com.kenjix.security.data.dto.security.AccountCredentialsDTO;
 import br.com.kenjix.security.data.dto.security.TokenDTO;
+import br.com.kenjix.security.exception.InvalidJwtAuthenticationException;
 import br.com.kenjix.security.exception.RequiredObjectIsNullException;
 import br.com.kenjix.security.model.User;
 import br.com.kenjix.security.repository.UserRepository;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.auth0.jwt.interfaces.JWTVerifier;
+import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,17 +24,32 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Base64;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+
+
 @Service
 public class AuthService {
+
+    @Value("${security.jwt.token.secret-key}")
+    private String secretKey;
+    private Algorithm algorithm;
+
     @Autowired
     public AuthService(AuthenticationManager authenticationManager, JwtTokenProviderService tokenProvider, UserRepository repository) {
         this.authenticationManager = authenticationManager;
         this.tokenProvider = tokenProvider;
         this.repository = repository;
     }
+
+    @PostConstruct
+    public void init() {
+        System.out.println("JWT SECRET: " + secretKey);
+    }
+
 
     Logger logger = LoggerFactory.getLogger(AuthService.class);
 
@@ -75,9 +97,38 @@ public class AuthService {
         return ResponseEntity.ok(token);
     }
 
-    public Boolean validateToken(String validateToken) {
-        return tokenProvider.validateToken(validateToken);
+    public boolean validateToken(String token){
+        try {
+            DecodedJWT decodedJWT = decodedToken(token);
+            return !decodedJWT.getExpiresAt().before(new Date());
+        } catch (Exception e) {
+            return false;
+        }
     }
+
+    private DecodedJWT decodedToken(String token) {
+        try {
+            JWTVerifier verifier = JWT.require(getAlgorithm())
+                    .build();
+
+            return verifier.verify(token);
+
+        } catch (Exception e) {
+            throw new InvalidJwtAuthenticationException("Expired or Invalid JWT Token!");
+        }
+    }
+
+
+
+    private Algorithm getAlgorithm() {
+        if (algorithm == null) {
+            String encoded = Base64.getEncoder().encodeToString(secretKey.getBytes());
+            algorithm = Algorithm.HMAC256(encoded.getBytes());
+        }
+        return algorithm;
+    }
+
+
 
     public AccountCredentialsDTO create(AccountCredentialsDTO user) {
 

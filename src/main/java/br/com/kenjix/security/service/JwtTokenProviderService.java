@@ -46,7 +46,12 @@ public class JwtTokenProviderService {
 
     @PostConstruct
     protected void init() {
+        System.out.println("SECRET ORIGINAL: " + secretKey);
+
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
+
+        System.out.println("SECRET BASE64: " + secretKey);
+
         algorithm = Algorithm.HMAC256(secretKey.getBytes());
     }
 
