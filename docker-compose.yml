@@ -5,12 +5,12 @@ services:
     build: .
     container_name: kenjix_security
     ports:
-      - "81:81"
+      - "7020:7020"
     environment:
-      MYSQL_HOST: database-1.ca3mcqac2tzz.us-east-1.rds.amazonaws.com
-      MYSQL_PORT: 3306
-      MYSQL_DATABASE_KENJIX: estoque
-      MYSQL_USER: root
-      MYSQL_ROOT_PASSWORD: K0t0net#g4
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_DATABASE_KENJIX: ${MYSQL_DATABASE_KENJIX}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       SPRING_FLYWAY_ENABLED: "false"
     restart: always
