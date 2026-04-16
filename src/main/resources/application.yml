@@ -4,7 +4,7 @@ server:
 security:
   jwt:
     token:
-      secret-key: ${JWT_SECRET}
+      secret-key: ${SECURITY_JWT_TOKEN_SECRET_KEY}
       expire-length: 3600000
 
 spring:
@@ -26,7 +26,9 @@ spring:
     open-in-view: false
 
 logging:
+  pattern:
+    console: "%d{HH:mm:ss} %-5level %logger{36} - %msg%n"
   level:
-    com.zaxxer.hikari: DEBUG
-    org.springframework.jdbc: DEBUG
-    org.hibernate.SQL: DEBUG
+    root: INFO
+    br.com.kenjix: INFO
+
