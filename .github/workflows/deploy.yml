@@ -43,14 +43,6 @@ jobs:
           echo "ECR_URI=$ECR_URI" >> $GITHUB_ENV
           echo "ecr_uri=$ECR_URI" >> $GITHUB_OUTPUT
 
-      - name: setup jdk 21
-        uses: actions/setup-java@v3
-        with:
-          java-version: '21'
-          distribution: 'temurin'
-      - name: Packaging the Application
-        run: mvn clean package clean package -DskipTests
-
       # 🐳 Build da imagem com versão
       - name: Build da imagem Docker
         run: |
